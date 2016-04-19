@@ -1,4 +1,4 @@
-require "../../action.cr"
+require "../action.cr"
 
 class Display < Action
   def run(context : Context, *args)

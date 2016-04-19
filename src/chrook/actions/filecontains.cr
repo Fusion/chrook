@@ -1,4 +1,4 @@
-require "../../action.cr"
+require "../action.cr"
 
 class FileContains  < Action
   def run(context : Context, *args)

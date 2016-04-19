@@ -1,7 +1,7 @@
 require "yaml"
-require "./ansiblelikepg/*"
-require "./ansiblelikepg/environment/*"
-require "./ansiblelikepg/actions/*"
+require "./chrook/*"
+require "./chrook/environment/*"
+require "./chrook/actions/*"
 
 # DESIRED PLUGINS
 # -ensure_file_exists
