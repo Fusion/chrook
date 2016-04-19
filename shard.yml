@@ -1,0 +1,12 @@
+name: ansiblelikepg
+version: 0.0.1
+
+authors:
+  - Chris F Ravenscroft <chris@voilaweb.com>
+
+license: MIT
+
+dependencies:
+  duktape:
+    github: jessedoyle/duktape.cr
+    version: ~> 0.8.1

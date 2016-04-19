@@ -1,0 +1,52 @@
+- epic: test ordering things
+  hosts: |
+    @#:timeout=500 noop=yes:
+    return [{
+      name: "uby2",
+      driver: "ssh2",
+      address: "192.168.1.115",
+      user: "chrook",
+      pass: "chrook"
+    }]
+
+- epic: test raw host list
+  hosts:
+    - name: uby2
+      driver: ssh2
+      address: |
+        @#:
+        return "192.168.1.115"
+      user: chrook
+      pass: chrook
+
+- epic: test flat host list
+  hosts:
+    - name: uby2
+      driver: ssh2
+      address: 192.168.1.115
+      user: chrook
+      pass: chrook
+    - name: uby3
+      driver: ssh2
+      address: 192.168.1.115
+      user: chrook
+      pass: chrook
+
+- epic: variables
+  bringup:
+    - var: var1
+      value: |
+        @#:timeout=500 noop=yes:
+        return [{
+          name: "uby6",
+          driver: "ssh2",
+          address: "192.168.1.115",
+          user: "chrook",
+          pass: "chrook"
+        }]
+  hosts: |
+    @v:
+    var1
+  story:
+    - display: Executing a few commands
+    - cmd: ls
