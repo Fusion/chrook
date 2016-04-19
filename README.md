@@ -1,6 +1,6 @@
-# ansiblelikepg
+# chrook
 
-TODO: Write a description here
+A terrible name.
 
 ## Installation
 
@@ -16,8 +16,6 @@ yml syntax:
 * Each epic must come with a hosts array
 * Expansion/extrapolation takes place even when listing hosts
 * Expansion: #@: = executable js code; #@:arg1=val arg2=val ...: same with timeout
-
-TODO: Write usage instructions here
 
 ### Expansions
 
