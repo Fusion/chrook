@@ -9,6 +9,10 @@ require "./chrook/actions/*"
 # -ensure_file_contains // will append
 # -
 #
+# Let's first jump through some hoops to abstract out
+# various types
+alias CrHash = Hash(String, Duktape::JSPrimitive)
+
 def abort(cleartext, ex = nil)
   puts "Aborting: #{cleartext}"
   puts ex if ex != nil
@@ -41,21 +45,23 @@ yepics = YAML.parse File.read "test.yml"
 yepics.each do |yepic|
   context = Context.new
 
-  yepic.each do |task,data|
-    case task
-    when "epic"
-      info("Epic: #{data}", "\n")
-    when "hosts"
-      context.hosts = data
-    when "story"
-      Section.parse(context, data)
-    when "bringup"
-      Section.parse(context, data)
-    when "teardown"
-      Section.parse(context, data)
+  begin
+    yepic.each do |task,data|
+      case task
+      when "epic"
+        info("Epic: #{data}", "\n")
+      when "hosts"
+        context.hosts = data
+      when "story"
+        Section.parse(context, data)
+      when "bringup"
+        Section.parse(context, data)
+      when "teardown"
+        Section.parse(context, data)
+      end
     end
+  ensure
+    context.cleanup
   end
 
-  #info = HostInfo.new("192.168.1.115", UserInfo.new("chrook", "chrook"))
-  #runner.run_command(info, "ls")
 end

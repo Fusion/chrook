@@ -1,7 +1,26 @@
 class HostInfo
-  getter host
 
-  def initialize(@host, @userinfo)
+  def initialize(host : CrHash)
+    @hostname = host["name"]
+    @driver   = host["driver"]
+    @address  = host["address"]
+
+    @userinfo = UserInfo.new host["user"], host["pass"]
+  end
+
+  def initialize(host, @userinfo)
+  end
+
+  def hostname
+    @hostname as String
+  end
+
+  def driver
+    @driver as String
+  end
+
+  def address
+    @address as String
   end
 
   def username

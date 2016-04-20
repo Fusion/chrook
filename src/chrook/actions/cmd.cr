@@ -2,8 +2,8 @@ require "../action.cr"
 
 class Cmd  < Action
   def run(context : Context, *args)
-    context.runners.run do |host|
-      p host
+    context.runners.traverse do |runner|
+      runner.execute args
     end
   end
 end

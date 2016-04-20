@@ -8,6 +8,8 @@
       user: "chrook",
       pass: "chrook"
     }]
+  story:
+    - display: "{{hosts}}"
 
 - epic: test raw host list
   hosts:
@@ -43,10 +45,16 @@
           address: "192.168.1.115",
           user: "chrook",
           pass: "chrook"
+        }, {
+          name: "uby7",
+          driver: "ssh2",
+          address: "192.168.1.115",
+          user: "chrook",
+          pass: "chrook"
         }]
   hosts: |
     @v:
     var1
   story:
     - display: Executing a few commands
-    - cmd: ls
+    - cmd: ls -l /

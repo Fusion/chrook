@@ -7,6 +7,10 @@ A terrible name.
 
 TODO: Write installation instructions here
 
+## TODO
+
+- Severe limitation for now: when executing a command using ssh2 runner,
+  a maximum read size of 32k is expected.
 
 ## Usage
 

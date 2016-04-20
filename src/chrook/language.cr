@@ -22,13 +22,13 @@ module Language extend self
   # TODO At this point, only one level deep. Not good.
   def convert(st)
     case st
-    when Array(Duktape::JSPrimitive)
+    when CrArray
       converted = [] of YAML::Type | Float64 | Bool
       st.each do |row|
         converted.push convert row
       end
       converted
-    when Hash(String, Duktape::JSPrimitive)
+    when CrHash
       converted = {} of YAML::Type => YAML::Type | Float64 | Bool
       st.each do |k, v|
         #converted[k] = convert v

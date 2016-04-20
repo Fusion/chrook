@@ -15,4 +15,8 @@ class Context
   def hosts=(text)
     @hosts = (Extrapolator.parse self, text) as Array(YAML::Type)|Array(Duktape::JSPrimitive)
   end
+
+  def cleanup
+    @runners.cleanup
+  end
 end

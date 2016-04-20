@@ -16,7 +16,7 @@ module Section extend self
         else
           custom = get_action action.to_s
           abort "Unknown custom action: #{action}" if custom == nil
-          custom.run @@context.not_nil!, arg
+          custom.run @@context.not_nil!, Extrapolator.parse @@context, Raw.new arg
         end
       when Array(YAML::Type)
         p "TODO!!!"
