@@ -1,3 +1,3 @@
 abstract class Action
-  abstract def run(context : Context, to_name, *args)
+  abstract def run(context : Context, *args)
 end
