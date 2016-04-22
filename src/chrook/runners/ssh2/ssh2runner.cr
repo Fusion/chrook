@@ -10,19 +10,21 @@ class SSH2Runner < Runner
     SSH2::Session.close_session @session
   end
 
+  # TODO Currently this will only return the output of the last command
   def execute(cmds)
     session = @session.not_nil!
     buf = Slice(UInt8).new(32768)
+    len = 0
 
     cmds.each do |cmd|
       session.open_session do |channel|
         channel.command(cmd as String)
         len = channel.read(buf).to_i32
         # This is not the answer:
-        puts String.new buf[0, len]
         # Alternatively to debug quickly use:
         # IO.copy(ch, STDOUT)
       end
     end
+    String.new buf[0, len]
   end
 end

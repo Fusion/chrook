@@ -11,6 +11,7 @@ TODO: Write installation instructions here
 
 - Severe limitation for now: when executing a command using ssh2 runner,
   a maximum read size of 32k is expected.
+- I really need to start adding comments!
 
 ## Usage
 

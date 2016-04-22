@@ -58,3 +58,4 @@
   story:
     - display: Executing a few commands
     - cmd: ls -l /
+      to: files

@@ -1,5 +1,6 @@
 module Section extend self
   def parse(@@context, text)
+    context = @@context.not_nil!
     text.each do |subsection|
       case subsection.raw
       when Hash(YAML::Type, YAML::Type)
@@ -9,14 +10,19 @@ module Section extend self
         when "var"
           varname = arg
           if sub.has_key?("value")
-              @@context.not_nil!.variables.set(varname, sub["value"])
+              context.variables.set(varname, sub["value"])
           else
             abort "No value specified for variable '#{varname}'"
           end
         else
           custom = get_action action.to_s
           abort "Unknown custom action: #{action}" if custom == nil
-          custom.run @@context.not_nil!, Extrapolator.parse @@context, Raw.new arg
+          custom.run context, Extrapolator.parse @@context, Raw.new arg
+          if sub.has_key?("to")
+            context.variables.each_space do |space, v|
+              context.variables.instance_set(space, sub["to"], v["result"])
+            end
+          end
         end
       when Array(YAML::Type)
         p "TODO!!!"
