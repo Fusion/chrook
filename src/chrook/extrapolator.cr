@@ -7,10 +7,10 @@ module Extrapolator extend self
   def parse_(raw_text)
     case raw_text
     when String
-      text = var_exp_literal(raw_text)
+      text = var_exp_literal raw_text
       return text if text.size < 4
       if text[0] == '@' && text[2] == ':'
-        arguments, payload = text[3..-1].split(/\n/, 2)
+        arguments, payload = text[3..-1].split /\n/, 2
         case directive = text[1]
         when '#'
           return Language.execute @@context, payload, argd arguments
@@ -26,13 +26,25 @@ module Extrapolator extend self
     when Array(YAML::Type)
       expanded = [] of YAML::Type
       raw_text.each do |row|
-        expanded.push supported parse_ row
+        expanded.push parse_ row
       end
       expanded
     when Hash(YAML::Type, YAML::Type)
       expanded = {} of YAML::Type => YAML::Type
       raw_text.each do |k, v|
-        expanded[k] = supported parse_ v
+        expanded[k] = parse_ v
+      end
+      expanded
+    when Array(Duktape::JSPrimitive)
+      expanded = [] of YAML::Type
+      raw_text.each do |row|
+        expanded.push parse_ row
+      end
+      expanded
+    when Hash(String, Duktape::JSPrimitive)
+      expanded = {} of YAML::Type => YAML::Type
+      raw_text.each do |k, v|
+        expanded[k] = parse_ v
       end
       expanded
     else
@@ -42,7 +54,7 @@ module Extrapolator extend self
 
   def var_exp_literal(text)
     text.gsub(/{{.+?}}/) do |match|
-      @@context.not_nil!.variables.get(match[2...-2])
+      @@context.not_nil!.variables.get match[2...-2]
     end
   end
 
@@ -60,86 +72,4 @@ module Extrapolator extend self
     args
   end
 
-  def supported(parsed)
-    case parsed
-    when Array(YAML::Type)
-      parsed as Array(YAML::Type)
-    when Hash(YAML::Type, YAML::Type)
-      parsed as Hash(YAML::Type, YAML::Type)
-    when String
-      parsed as String
-    when Nil
-      nil
-    else
-      begin
-        sup = [] of YAML::Type
-        (parsed as Array).each do |row|
-          sup.push(row as YAML::Type)
-        end
-        sup
-      rescue ex
-        begin
-          sup = {} of YAML::Type => YAML::Type
-          (parsed as Hash).each do |k, v|
-            sup[k] = v as YAML::Type
-          end
-          sup
-        rescue ex
-          abort "Unsupported type returned to extrapolator: #{dump_type parsed}"
-        end
-      end
-    end
-  end
-
-# YAML::Type = Array(YAML::Type), Hash(YAML::Type, YAML::Type), String, Nil
-# Thus: (Array(Duktape::JSPrimitive) | Array(YAML::Type) | Bool | Float64 | Hash(String, Duktape::JSPrimitive) | Hash(YAML::Type, YAML::Type) | String | Nil)
-# == YAML::Type | Array(Duktape::JSPrimitive) | Bool | Float64 | Hash(String, Duktape::JSPrimitive)
-  def dump_type(parsed)
-    case parsed
-    when Array(Duktape::JSPrimitive)
-      "JSPrimitive"
-    when Array(YAML::Type)
-      "YAML::Type"
-    when Bool
-      "Bool"
-    when Float64
-      "Float64"
-    when Hash(YAML::Type, YAML::Type)
-      "Hash(YAML::Type, YAML::Type)"
-    when Hash(YAML::Type, Duktape::JSPrimitive)
-      "Hash(YAML::Type, Duktape::JSPrimitive)"
-    when Hash(YAML::Type, Array(Duktape::JSPrimitive))
-      "Hash(YAML::Type, Array(Duktape::JSPrimitive))"
-    when Hash(YAML::Type, Hash(String, Duktape::JSPrimitive))
-      "Hash(YAML::Type, Hash(String, Duktape::JSPrimitive))"
-    when Hash(YAML::Type, Bool)
-      "Hash(YAML::Type, Bool)"
-    when Hash(YAML::Type, Float64)
-      "Hash(YAML::Type, Float64)"
-    when Hash(String, String)
-      "Hash(String, String)"
-    when Hash(String, YAML::Type)
-      "Hash(String, YAML::Type)"
-    when Hash(String, Duktape::JSPrimitive)
-      "Hash(String, Duktape::JSPrimitive)"
-    when Hash(String, Array(Duktape::JSPrimitive))
-      "Hash(String, Array(Duktape::JSPrimitive))"
-    when Hash(String, Hash(String, Duktape::JSPrimitive))
-      "Hash(String, Hash(String, Duktape::JSPrimitive))"
-    when Hash(String, Bool)
-      "Hash(String, Bool)"
-    when Hash(String, Float64)
-      "Hash(String, Float64)"
-    when Hash(String, String)
-      "Hash(String, String)"
-    when Hash
-      "Hash<?, ?>"
-    when String
-      "String"
-    when Nil
-      "Nil"
-    else
-      "Unknown -- one of: #{typeof(parsed)}"
-    end
-  end
 end

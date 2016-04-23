@@ -18,10 +18,10 @@ class Runners
   def traverse(&block)
     context = @context.not_nil!
     context.hosts.each do |host|
-      hostinfo = HostInfo.new (host as CrHash)
+      hostinfo = HostInfo.new host as Hash(YAML::Type, YAML::Type)
       case driver_name = hostinfo.driver
       when "ssh2"
-        if !@runners.has_key?(hostinfo.hostname)
+        if !@runners.has_key? hostinfo.hostname
           @runners[hostinfo.hostname] = SSH2Runner.new hostinfo
           @runners[hostinfo.hostname].open
         end
@@ -36,8 +36,8 @@ class Runners
       # so for instance:
       # instantiate ssh runner, have it open ssh connection, yield with channel
       # well obviously channel will have to be decorated.
-      context.variables.instance_set(hostinfo.hostname, "result",
-        yield @runners[hostinfo.hostname])
+      context.variables.instance_set hostinfo.hostname, "result",
+        yield @runners[hostinfo.hostname]
     end
   end
 

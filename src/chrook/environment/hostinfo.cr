@@ -1,6 +1,6 @@
 class HostInfo
 
-  def initialize(host : CrHash)
+  def initialize(host)
     @hostname = host["name"]
     @driver   = host["driver"]
     @address  = host["address"]

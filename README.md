@@ -56,6 +56,23 @@ Assign variable
         value: |
           var_content
 
+### Environment
+
+Dump environment
+
+    section:
+      - dump_env:
+
+Using when executing code:
+
+    env.$.hosts.forEach(function(item) {
+      print("Host: " + item.name);
+    })
+
+    print(env["host_name"].variable_name)
+    // or
+    print(env.host_name.variable_name)
+
 ### Stories
 
 In a given story, each action that takes place on hosts will be run fully on all hosts as defined by the 'hosts' directive and the story will only move forward when all hosts have performed that command.

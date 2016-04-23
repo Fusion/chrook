@@ -1,8 +1,6 @@
 class Context
   getter hosts, variables, runners
 
-  @hosts : Array(YAML::Type)|Array(Duktape::JSPrimitive)
-
   def initialize
     @variables = Variables.new
     @runners = Runners.new
@@ -13,7 +11,8 @@ class Context
   end
 
   def hosts=(text)
-    @hosts = (Extrapolator.parse self, text) as Array(YAML::Type)|Array(Duktape::JSPrimitive)
+    @hosts = (Extrapolator.parse self, text) as Array(YAML::Type)
+    @variables.set "hosts", @hosts
   end
 
   def cleanup
