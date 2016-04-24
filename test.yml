@@ -89,6 +89,7 @@
 
         env.$.hosts.forEach(function(item) {
           print("\n# Files on Host: " + item.name);
-          print(env[item.name].files);
+          //print(env[item.name].files);
           print("---");
         });
+    - package: libmyth-python

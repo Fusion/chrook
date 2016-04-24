@@ -10,7 +10,7 @@ class SSH2Runner < Runner
     SSH2::Session.close_session @session
   end
 
-  # TODO Currently this will only return the output of the last command
+  # TODO:0 Currently, runner this will only return the output of the last command issue:2
   def execute(cmds)
     session = @session.not_nil!
     buf = Slice(UInt8).new(32768)

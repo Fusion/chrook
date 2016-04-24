@@ -19,7 +19,7 @@ module Section extend self
         else
           custom = get_action action.to_s
           abort "Unknown custom action: #{action}" if custom == nil
-          custom.run context, Extrapolator.parse context, Raw.new arg
+          custom.run context, action.to_s, Extrapolator.parse context, Raw.new arg
           if sub.has_key? "to"
             context.variables.each_space do |space, v|
               context.variables.instance_set space, sub["to"], v["result"]
