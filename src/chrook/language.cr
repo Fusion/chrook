@@ -19,32 +19,4 @@ module Language extend self
       abort "Invalid script found while executing", ex
     end
   end
-
-  # #InProgress:0 Need to get rid of convert in language class itself issue:3
-  def convert(st)
-    case st
-    when CrArray
-      converted = [] of YAML::Type | Float64 | Bool
-      st.each do |row|
-        converted.push convert row
-      end
-      converted
-    when CrHash
-      converted = {} of YAML::Type => YAML::Type | Float64 | Bool
-      st.each do |k, v|
-        #converted[k] = convert v
-      end
-      converted
-    when Hash(YAML::Type, Duktape::JSPrimitive)
-      abort "Woops!"
-    when String
-      st as String
-    when Float64
-      st as Float64
-    when Bool
-      st as Bool
-    else
-      "" as String
-    end
-  end
 end
