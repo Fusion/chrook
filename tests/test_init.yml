@@ -1,0 +1,9 @@
+- epic: prep destination for access
+  hosts:
+    - name: uby
+      driver: ssh2
+      address: 192.168.1.115
+      user: chrook
+      pass: chrook
+  story:
+    - push_key: chrook_id_rsa.pub

@@ -1,4 +1,5 @@
 require "yaml"
+require "option_parser"
 require "./chrook/*"
 require "./chrook/environment/*"
 require "./chrook/actions/*"
@@ -48,12 +49,28 @@ def get_action(name : String)
   @@registered_actions.not_nil!.[name]
 end
 
+begin
+  OptionParser.parse! do |parser|
+    parser.banner = "Arguments: <file.yml>"
+    parser.unknown_args do |arg|
+      if arg.size < 1
+        puts "Missing argument."
+        exit -1
+      end
+      @@file_name = arg[0]
+    end
+  end
+rescue ex: OptionParser::InvalidOption
+  puts "#{ex}"
+  exit -1
+end
 
 # TODO:40 we will need to use fibers
-yepics = YAML.parse File.read "test.yml"
+yepics = YAML.parse File.read @@file_name.not_nil!
 
 yepics.each do |yepic|
   context = Context.new
+  context.script_file = @@file_name
 
   begin
     yepic.each do |task,data|

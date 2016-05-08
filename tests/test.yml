@@ -92,4 +92,5 @@
           //print(env[item.name].files);
           print("---");
         });
+    - become: root
     - package: libmyth-python

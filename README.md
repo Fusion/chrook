@@ -77,6 +77,26 @@ Using when executing code:
 
 In a given story, each action that takes place on hosts will be run fully on all hosts as defined by the 'hosts' directive and the story will only move forward when all hosts have performed that command.
 
+### Security
+
+#### SSH Access
+
+Should be possible using either username/password or, better, username + key
+
+* Generate your key, if you have not done so yet: `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
+* Push your key to the managed device using `push_key`
+
+#### sudo/etc
+
+Use `become`
+
+Again, for flexibility it is easier if the user is an sudoer with no required password.
+After all, why require a password when you are in automated mode?
+
+Update security this way:
+
+    TODO
+
 ## Development
 
 TODO: Write development instructions here
