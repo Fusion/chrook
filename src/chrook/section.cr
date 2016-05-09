@@ -22,6 +22,7 @@ module Section extend self
         else
           custom = get_action action.to_s
           abort "Unknown custom action: #{action}" if custom == nil
+          context.section_env = sub
           custom.run context, action.to_s, Extrapolator.parse context, Raw.new arg
           # #InProgress:0 Introduce 'condition?' -> then: or if: issue:4
           if sub.has_key? "to"

@@ -84,7 +84,7 @@ In a given story, each action that takes place on hosts will be run fully on all
 Should be possible using either username/password or, better, username + key
 
 * Generate your key, if you have not done so yet: `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
-* Push your key to the managed device using `push_key`
+* Push your key to the managed device using `security_push_key <pub_key_file>`
 
 #### sudo/etc
 
@@ -92,6 +92,8 @@ Use `become`
 
 Again, for flexibility it is easier if the user is an sudoer with no required password.
 After all, why require a password when you are in automated mode?
+
+Note that this will only work if the account you are modifying is already a member of the 'sudo' group.
 
 Update security this way:
 

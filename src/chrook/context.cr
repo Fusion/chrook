@@ -1,6 +1,6 @@
 class Context
   getter hosts, variables, runners
-  property persona, script_file
+  property persona, section_env, script_file
 
   def initialize
     @variables = Variables.new
@@ -11,6 +11,7 @@ class Context
     @runners.context = self
 
     @persona = nil
+    @section_env = nil
     @script_file = nil
   end
 
@@ -25,6 +26,11 @@ class Context
 
   def file_name(file)
     script_path + "/" + file
+  end
+
+  def escalate?
+    return true if !@section_env.nil? && @section_env.not_nil!.has_key?("as") && section_env.not_nil!["as"] == "super"
+    false
   end
 
   def cleanup

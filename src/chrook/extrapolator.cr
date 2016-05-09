@@ -41,6 +41,12 @@ module Extrapolator extend self
         expanded.push parse_ row
       end
       expanded
+    when Array(String)
+      expanded = [] of YAML::Type
+      raw_text.each do |row|
+        expanded.push parse_ row
+      end
+      expanded
     when Hash(String, Duktape::JSPrimitive)
       expanded = {} of YAML::Type => YAML::Type
       raw_text.each do |k, v|

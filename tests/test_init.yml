@@ -6,4 +6,5 @@
       user: chrook
       pass: chrook
   story:
-    - push_key: chrook_id_rsa.pub
+    - security_push_key: chrook_id_rsa.pub
+    - security_password: no

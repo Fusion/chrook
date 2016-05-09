@@ -2,5 +2,12 @@
 /libs/
 /.crystal/
 /.shards/
+/.tags
+/tags
+/.travis.yml
+/tt
+/shard.lock
+/.imdone/
+/chrook
 
 

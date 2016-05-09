@@ -1,4 +1,6 @@
 abstract class Runner
+  getter hostinfo
+
   def initialize(@hostinfo)
   end
 
